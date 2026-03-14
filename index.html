@@ -5,57 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGH Weekly Profit Dashboard</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 </head>
 <body>
-    <div class="container">
+    <header>
         <h1>SGH Weekly Profit Dashboard</h1>
-        <input type="file" id="fileInput" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-        <button id="uploadButton">Upload</button>
-        <div id="dashboard"></div>
-    </div>
-
-    <script>
-        document.getElementById('uploadButton').addEventListener('click', function() {
-            const fileInput = document.getElementById('fileInput');
-            if (fileInput.files.length === 0) {
-                alert('Please upload an Excel file.');
-                return;
-            }
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-                renderDashboard(jsonData);
-            };
-            reader.readAsArrayBuffer(file);
-        });
-
-        function renderDashboard(data) {
-            const dashboard = document.getElementById('dashboard');
-            dashboard.innerHTML = '';
-            data.forEach(row => {
-                const rowDiv = document.createElement('div');
-                rowDiv.textContent = JSON.stringify(row);
-                dashboard.appendChild(rowDiv);
-            });
-        }
-    </script>
-    <style>
-        .container {
-            margin: 20px;
-            font-family: Arial, sans-serif;
-        }
-        #dashboard {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
-        div {
-            margin-bottom: 5px;
-        }
-    </style>
+    </header>
+    <main>
+        <section class="kpi-cards">
+            <div class="kpi-card">
+                <h2>Total Profit</h2>
+                <p id="total-profit">$0.00</p>
+            </div>
+            <div class="kpi-card">
+                <h2>Total Revenue</h2>
+                <p id="total-revenue">$0.00</p>
+            </div>
+            <div class="kpi-card">
+                <h2>Total Expenses</h2>
+                <p id="total-expenses">$0.00</p>
+            </div>
+        </section>
+        <section class="client-tables">
+            <h2>Client Profitability</h2>
+            <table id="client-table">
+                <thead>
+                    <tr>
+                        <th>Client</th>
+                        <th>Profit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Client data will be populated here -->
+                </tbody>
+            </table>
+        </section>
+        <section class="waterfall-chart">
+            <h2>Profit Waterfall Chart</h2>
+            <div id="waterfall-chart-container"></div>
+        </section>
+        <section class="margin-visualization">
+            <h2>Margin Visualization</h2>
+            <canvas id="margin-chart"></canvas>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 SGH. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
