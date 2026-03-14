@@ -4,53 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGH Weekly Profit Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        #upload-area { border: 2px dashed #ccc; padding: 20px; text-align: center; }
+        #kpi-cards { display: flex; justify-content: space-around; margin-top: 20px; }
+        .kpi { border: 1px solid #ccc; padding: 15px; width: 30%; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>SGH Weekly Profit Dashboard</h1>
-    </header>
-    <main>
-        <section class="kpi-cards">
-            <div class="kpi-card">
-                <h2>Total Profit</h2>
-                <p id="total-profit">$0.00</p>
-            </div>
-            <div class="kpi-card">
-                <h2>Total Revenue</h2>
-                <p id="total-revenue">$0.00</p>
-            </div>
-            <div class="kpi-card">
-                <h2>Total Expenses</h2>
-                <p id="total-expenses">$0.00</p>
-            </div>
-        </section>
-        <section class="client-tables">
-            <h2>Client Profitability</h2>
-            <table id="client-table">
-                <thead>
-                    <tr>
-                        <th>Client</th>
-                        <th>Profit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Client data will be populated here -->
-                </tbody>
-            </table>
-        </section>
-        <section class="waterfall-chart">
-            <h2>Profit Waterfall Chart</h2>
-            <div id="waterfall-chart-container"></div>
-        </section>
-        <section class="margin-visualization">
-            <h2>Margin Visualization</h2>
-            <canvas id="margin-chart"></canvas>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 SGH. All rights reserved.</p>
-    </footer>
-    <script src="script.js"></script>
+    <h1>SGH Weekly Profit Dashboard</h1>
+    <div id="upload-area">
+        <h2>Upload Excel File</h2>
+        <input type="file" id="file-input" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+        <p>Drag and drop your files here</p>
+    </div>
+    <div id="kpi-cards">
+        <div class="kpi"><h3>Total Profit</h3><p id="total-profit">$0</p></div>
+        <div class="kpi"><h3>Client Count</h3><p id="client-count">0</p></div>
+        <div class="kpi"><h3>Average Weekly Profit</h3><p id="average-profit">$0</p></div>
+    </div>
+    <table id="client-table">
+        <thead>
+            <tr>
+                <th>Client Name</th>
+                <th>Profit</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script>
+        document.getElementById('file-input').addEventListener('change', handleFileSelect);
+        document.getElementById('upload-area').addEventListener('dragover', (event) => {
+            event.preventDefault();
+        });
+        document.getElementById('upload-area').addEventListener('drop', handleDrop);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                processFile(file);
+            }
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            const file = event.dataTransfer.files[0];
+            if (file) {
+                processFile(file);
+            }
+        }
+
+        function processFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = e.target.result;
+                // Logic to parse the Excel file and update KPI cards and table
+                updateDashboard(data);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function updateDashboard(data) {
+            // Placeholder for parsing Excel data and updating the dashboard
+            // For example: Update KPIs and populate client table
+            document.getElementById('total-profit').textContent = '$1000';
+            document.getElementById('client-count').textContent = '10';
+            document.getElementById('average-profit').textContent = '$100';
+            const tbody = document.querySelector('#client-table tbody');
+            tbody.innerHTML = '<tr><td>Client A</td><td>$500</td><td>Details</td></tr>';
+            // Add more rows as needed
+        }
+    </script>
 </body>
 </html>
