@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGH Weekly Profit Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@vercel/edge-functions@latest/dist/index.mjs"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-10 rounded shadow-lg">
+        <h1 class="text-2xl font-bold mb-4">SGH Weekly Profit Dashboard</h1>
+        <div id="profit-data" class="text-lg">
+            <!-- Profit data will be dynamically rendered here -->
+        </div>
+        <script>
+            // JavaScript to fetch and display profit data
+            async function fetchProfitData() {
+                const response = await fetch('/api/get-profit-data');
+                const data = await response.json();
+                document.getElementById('profit-data').innerHTML = `
+                    <p>Weekly Profit: $${data.weeklyProfit}</p>
+                    <p>Total Profit: $${data.totalProfit}</p>
+                `;
+            }
+            fetchProfitData();
+        </script>
+    </div>
+</body>
+</html>
